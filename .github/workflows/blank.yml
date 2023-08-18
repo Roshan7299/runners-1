@@ -1,4 +1,4 @@
-name: Deploy to Servers
+name: HTML Server
 
 on:
   push:
@@ -6,17 +6,45 @@ on:
       - main
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-    
-    - name: Deploy to Server 1
+
+    - name: Create index.html
       run: |
-        echo "Deploying to Server 1"
-        scp -r new.html/* ubuntu@54.162.52.230:/home/ubuntu/new
-        # Replace 'user', 'server1', and '/path/to/destination' with actual values
-        
-   
+        echo '<!DOCTYPE html>
+        <html>
+        <head>
+         <title>CPU and Memory Usage Monitor</title>
+          <script>
+          function updateMetrics() {
+            // Get CPU and memory usage
+            var cpuUsage = performance.now();
+            var memoryUsage = (performance.memory.usedJSHeapSize / 1024 / 1024).toFixed(2);
+
+            // Update the display
+            document.getElementById("cpuUsage").textContent = cpuUsage.toFixed(2) + " ms";
+            document.getElementById("memoryUsage").textContent = memoryUsage + " MB";
+        }
+
+        setInterval(updateMetrics, 1000); // Update every second
+        </script>
+        </head>
+        <body>
+        <h1>CPU and Memory Usage Monitor</h1>
+        <p><strong>CPU Usage:</strong> <span id="cpuUsage">0.00 ms</span></p>
+        <p><strong>Memory Usage:</strong> <span id="memoryUsage">0.00 MB</span></p>
+        </body>
+        </html>' > $HOME/index.html
+
+    - name: Start HTTP server
+      run: |
+        python3 -m http.server 8080 --bind 0.0.0.0 --directory $HOME &
+        sleep 5  # Wait for the server to start
+
+    - name: Test HTML server
+      run: |
+        curl -s http://localhost:8080
