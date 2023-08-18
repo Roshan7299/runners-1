@@ -1,4 +1,4 @@
-name: Deploy to Server
+name: Deploy to Servers
 
 on:
   push:
@@ -7,8 +7,20 @@ on:
 
 jobs:
   deploy:
-    runs-on: github-runner 
+    runs-on: ubuntu-latest
     
     steps:
-      - name: checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v2
+    
+    - name: Deploy to Server 1
+      run: |
+        echo "Deploying to Server 1"
+        scp -r html/* user@server1:/path/to/destination
+        # Replace 'user', 'server1', and '/path/to/destination' with actual values
+        
+    - name: Deploy to Server 2
+      run: |
+        echo "Deploying to Server 2"
+        scp -r html/* user@server2:/path/to/destination
+        # Replace 'user', 'server2', and '/path/to/destination' with actual values
