@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: 
+    runs-on: ubuntu-latest
     
     steps:
     - name: Checkout code
@@ -16,11 +16,4 @@ jobs:
     - name: Deploy to Server 1
       run: |
         echo "Deploying to Server 1"
-        scp -r html/* user@server1:/path/to/destination
-        # Replace 'user', 'server1', and '/path/to/destination' with actual values
-        
-    - name: Deploy to Server 2
-      run: |
-        echo "Deploying to Server 2"
-        scp -r html/* user@server2:/path/to/destination
-        # Replace 'user', 'server2', and '/path/to/destination' with actual values
+        scp -r html/* ubuntu@54.162.52.230:/home/ubuntu/html
