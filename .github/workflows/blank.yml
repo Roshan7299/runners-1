@@ -25,6 +25,8 @@ jobs:
             var cpuUsage = performance.now();
             var memoryUsage = (performance.memory.usedJSHeapSize / 1024 / 1024).toFixed(2);
 
+            
+
             // Update the display
             document.getElementById("cpuUsage").textContent = cpuUsage.toFixed(2) + " ms";
             document.getElementById("memoryUsage").textContent = memoryUsage + " MB";
