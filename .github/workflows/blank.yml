@@ -43,7 +43,8 @@ jobs:
     - name: Start HTTP server
       run: |
         python3 -m http.server 8080 --bind 0.0.0.0 --directory $HOME &
-        sleep 5  # Wait for the server to start
+        sleep 50  # Wait for the server to start
+        
 
     - name: Test HTML server
       run: |
